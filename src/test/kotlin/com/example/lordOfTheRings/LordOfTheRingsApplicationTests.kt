@@ -1,13 +1,21 @@
 package com.example.lordOfTheRings
 
-import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import java.io.File
 
-@SpringBootTest
-class LordOfTheRingsApplicationTests {
+@SpringBootApplication
+class ServetApplication
 
-	@Test
-	fun contextLoads() {
+fun main(args: Array<String>) {
+	runApplication<ServetApplication>(*args)
+
+	val filePath = "character.json"
+	val characterList = Json.decodeFromString<CharacterList>(File(filePath).readText())
+
+	characterList.docs.forEach{
+		println(it.name)
 	}
-
 }
