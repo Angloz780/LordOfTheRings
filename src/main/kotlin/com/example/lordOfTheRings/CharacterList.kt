@@ -7,8 +7,6 @@ data class CharacterList (
     val docs: List<Doc>
 )
 
-
-
 @Serializable
 data class Doc (
     @SerialName("_id")

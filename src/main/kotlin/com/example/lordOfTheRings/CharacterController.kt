@@ -27,7 +27,7 @@ class CharacterController {
 
             var encontrado = false
 
-            if (it.race == "Elf"){
+            if (it.race == "Elf" && it.gender == "female"){
                 encontrado = true
             }
             encontrado
