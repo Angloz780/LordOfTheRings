@@ -22,6 +22,8 @@ data class Doc (
     val hair: String,
     val name: String,
 
+    var seleccion: Boolean = false,
+
     @SerialName("wikiUrl")
     val wikiURL: String? = null
 )

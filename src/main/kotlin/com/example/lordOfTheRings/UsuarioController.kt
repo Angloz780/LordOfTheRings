@@ -34,17 +34,36 @@ class UsuarioController (private  val usuarioRepository: UsuarioRepository) {
     fun asignarEquipo(@PathVariable token: String): Any {
 
         usuarioRepository.findAll().forEach { user ->
-
             if (user.token == token) {
-                for(i in 1 .. 6){
+                while (user.personList.size != 6) {
+                    val personajesRandom = characterList.docs.random()
 
-                    var perRandom = characterList.docs.random()
-                    user.personList.add(perRandom.name)
-                    usuarioRepository.save(user)
+                    if (!personajesRandom.seleccion) {
+                        user.personList.add(personajesRandom.id)
+                        personajesRandom.seleccion = true
+                        usuarioRepository.save(user)
+                    }
                 }
                 return user.personList
             }
         }
-        return "TOKEN NO ENCONTRADO"
+        return "Token inválido "
+    }
+
+    @PostMapping("liberarPersona/{token}/{id}")
+    fun liberarPersona(@PathVariable token: String, @PathVariable id: String): Any {
+        usuarioRepository.findAll().forEach { user ->
+            if (user.token == token) {
+                user.personList.forEach {
+                    if (it == id) {
+                        user.personList.remove(it)
+                        usuarioRepository.save(user)
+                        return "Personaje liberado"
+                    }
+                }
+                return "El personaje no pertence al equipo"
+            }
+        }
+        return "Token no valido"
     }
 }
